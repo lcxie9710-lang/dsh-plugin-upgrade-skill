@@ -232,7 +232,13 @@ function writeProfilePatches(profileDir) {
       '  config:',
       '    provider: deepseek-official',
       '    model: Qwen3.6-35B',
-      '- id: "@deepseek-ai/cordis-plugin-hmr"',
+      // This row has been addressed by `id: hmr` since at least dsh-v0.1.2-alpha.2, when
+      // its package was still '@deepseek-ai/cordis-plugin-hmr' and it shipped
+      // `disabled: true` (packages/bundle/base/cordis.patch.yml). The previous value here
+      // was that package name - never the row id - so the patch matched no row and was
+      // warned and skipped; the old default disable masked that. The 0.1.7 row is disabled
+      // only under `!!js !ctx.get('profileContext')`, so it is live in this probe.
+      '- id: hmr',
       '  disabled: true',
       '',
     ].join('\n'),
